@@ -13,6 +13,6 @@ RUN pip install pyinstaller
 COPY entrypoint.sh /entrypoint.sh
 
 VOLUME /src/
-WORKDIR /src/
+WORKDIR /src
 
 ENTRYPOINT ["/entrypoint.sh"]

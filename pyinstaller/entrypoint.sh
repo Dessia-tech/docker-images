@@ -3,8 +3,12 @@
 # Allow the workdir to be set using an env var.
 # Useful for CI pipiles which use docker for their build steps
 # and don't allow that much flexibility to mount volumes
-WORKDIR=${SRCDIR:-/src}
 
+WORKDIR=/src
+
+cd $WORKDIR
+
+pwd
 
 if [ -f requirements.txt ]; then
     pip install -r requirements.txt
