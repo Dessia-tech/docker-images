@@ -43,10 +43,11 @@ COPY python39._pth /Python/python39._pth
 
 RUN wine $PYTHON get-pip.py
 
-RUN python -V
+COPY future /future
+RUN cp -a /future/. /Python
+RUN ls /Python
 
-RUN wine $PYTHON -m pip install -U setuptools
-RUN wine $PYTHON -m pip install future
+RUN wine $PYTHON -m pip install pyinstaller
 
 ENV PYINSTALLER Z:\\Python\\Scripts\\pyinstaller.exe
 
