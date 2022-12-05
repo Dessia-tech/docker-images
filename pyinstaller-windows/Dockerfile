@@ -34,7 +34,6 @@ ENV WINEPREFIX /wine64
 
 RUN winetricks win10
 
-RUN mkdir python-3.9.13
 RUN unzip python-3.9.13-embed-amd64.zip -d Python
 
 ENV PYTHON Z:\\Python\\python.exe
@@ -45,11 +44,25 @@ RUN wine $PYTHON get-pip.py
 
 COPY future /future
 RUN cp -a /future/. /Python
-RUN ls /Python
 
 RUN wine $PYTHON -m pip install pyinstaller
 
 ENV PYINSTALLER Z:\\Python\\Scripts\\pyinstaller.exe
+
+RUN cp Python/python39.zip . \
+    && rm Python/python39.zip \
+    && unzip python39.zip -d Python/python39.zip
+
+# Copy needed files for tkinter
+COPY tcl /Python/tcl
+COPY tkinter /Python/tkinter
+COPY DLLs /Python
+
+# put the src folder inside wine
+RUN mkdir /src/
+VOLUME /src/
+WORKDIR /src/
+RUN mkdir -p /tmp
 
 COPY entrypoint.sh /entrypoint.sh
 
