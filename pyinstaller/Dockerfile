@@ -3,7 +3,7 @@ FROM python:3.9
 MAINTAINER Dessia Technologies "root@dessia.tech"
 
 RUN apt update && apt-get install -y --no-install-recommends\
-    	python3-tk \
+    	python3-tk xvfb \
      && apt-get clean \
      && apt-get autoremove \
      && rm -rf /var/lib/apt/lists/*

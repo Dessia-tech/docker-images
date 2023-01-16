@@ -20,6 +20,10 @@ echo "$@"
 
 if [[ "$@" == "" ]]; then
     wine $PYINSTALLER --clean -y --dist ./dist/windows --workpath /tmp *.spec
+    echo Testing the app...
+    export DISPLAY=:1.0
+    Xvfb :1 -screen 0 1600x1200x16  & 
+    wine dist\\windows\\dessia_desktop.exe --debug
     chown -R --reference=. ./dist/windows
 else
     sh -c "$@"

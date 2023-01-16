@@ -7,8 +7,8 @@ FROM debian:bullseye
 
 MAINTAINER Dessia Technologies "root@dessia.tech"
 
-RUN apt update
-RUN apt install -y wget gnupg software-properties-common apt-utils
+RUN apt-get update
+RUN apt-get install -y wget gnupg software-properties-common apt-utils xvfb
 
 # Need at least wine 4.14 to install python 3.10
 RUN dpkg --add-architecture i386 \

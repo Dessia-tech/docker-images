@@ -18,6 +18,10 @@ echo "$@"
 
 if [[ "$@" == "" ]]; then
     pyinstaller --clean -y --dist ./dist/linux --workpath /tmp *.spec
+    echo Testing the app...
+    export DISPLAY=:1.0
+    Xvfb :1 -screen 0 1600x1200x16  & 
+    ./dist/linux/dessia_desktop --debug
     chown -R --reference=. ./dist/linux
 else
     sh -c "$@"
