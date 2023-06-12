@@ -1,0 +1,43 @@
+# Installing wine to execute pyinstaller as a windows machine
+RUN dpkg --add-architecture i386 \
+     && apt update \
+     && apt install -y \
+      software-properties-common \
+      wine \
+      wine32 \
+      wine64 \
+      libwine \
+      libwine:i386 \
+      fonts-wine \
+      wget \
+      binutils \
+      unzip
+
+RUN add-apt-repository 'deb http://deb.debian.org/debian bullseye main contrib non-free' \
+     && apt update
+
+RUN apt install -y winetricks
+
+ENV WINEPREFIX /wine
+ENV WINARCH win64
+
+RUN winetricks win10
+
+# Downloading python to install it on windows
+RUN wget https://www.python.org/ftp/python/3.10.8/python-3.10.8-embed-amd64.zip
+#RUN wget https://www.python.org/ftp/python/3.10.8/python-3.10.8.exe
+RUN wget https://bootstrap.pypa.io/get-pip.py
+
+# RUN wine cmd /c powershell -command "Expand-Archive -Force 'python-3.10.8-embed-amd64.zip' 'python-3.10'"
+RUN mkdir python-3.10
+RUN unzip python-3.10.8-embed-amd64.zip -d python-3.10
+
+     # install pip for this version of python
+RUN wine "python-3.10\python.exe" get-pip.py
+
+# RUN wine cmd /c setx path "%path%;z:\python-3.10"
+COPY python310._pth python-3.10
+# RUN wine (echo python310.zip && echo . && echo. && echo import site) > z:\python-3.10\python310._pth \
+RUN wine "python-3.10\Scripts\pip.exe" install -U pip 
+RUN wine "python-3.10\Scripts\pip.exe" install --upgrade setuptools
+RUN wine "python-3.10\Scripts\pip.exe" install pyinstaller
